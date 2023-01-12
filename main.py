@@ -75,6 +75,9 @@ def delete_clientPhone(connect, client_id: int, client_phone: str) -> None:
         cur.execute("""
             DELETE FROM phone_number WHERE client_id=%s AND number=%s;
         """, (client_id, client_phone,))
+        cur.execute("""
+            DELETE FROM client WHERE id=%s AND phone=%s;
+        """, (client_id, client_phone,))
 
 def delete_client(connect, client_id: int) -> None:
     with connect.cursor() as cur:
@@ -156,7 +159,7 @@ with psycopg2.connect(database="netology_db", user="postgres", port='5431') as c
     update_clientInfo(conn, 1, client_name='Mark', client_phone='+51')
     find_client(conn, client_phone='+51')
 
-    delete_clientPhone(conn, 1, '+31')
+    delete_clientPhone(conn, 1, '+41')
     find_client(conn, client_name='Mark')
 
     delete_client(conn, 7)
